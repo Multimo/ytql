@@ -4,40 +4,64 @@ import {
     GraphQLObjectType,
     GraphQLSchema,
     GraphQLString,
+    GraphQLList,
     graphql 
 } from 'graphql';
 import { fakeDatabase } from './realFakeDB';
 
 
 // Define the User type
-var userType = new GraphQLObjectType({
+const userType = new GraphQLObjectType({
   name: 'User',
   fields: {
     id: { type: GraphQLString },
     name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    // savedPlaylists: { type: GraphQLList }
+  }
+});
+
+const roomType = new GraphQLObjectType({
+  name: 'Room',
+  fields: {
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    description: { type: GraphQLString },
+    playlist: { type: GraphQLString },
+    // users: { type: GraphQLList }
   }
 });
 
 // Define the Query type
-var queryType = new GraphQLObjectType({
+const queryType = new GraphQLObjectType({
   name: 'Query',
-  fields: {
+  fields: () => ({
     user: {
       type: userType,
       // `args` describes the arguments that the `user` query accepts
       args: {
         id: { type: GraphQLString }
       },
-      resolve: function (_, {id}) {
-        return fakeDatabase[id];
-      }
-    }
-  }
+      resolve: (_, {id}) => fakeDatabase.users[id]
+    },
+   allUsers: {
+      type: userType,
+      resolve: () => fakeDatabase.users
+    },
+    room: {
+      type: roomType,
+      // `args` describes the arguments that the `user` query accepts
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve: (_, {id}) => fakeDatabase.rooms[id]
+    },
+  })
 });
 
-var schema = new GraphQLSchema({query: queryType});
+const schema = new GraphQLSchema({query: queryType});
 
-var app = express();
+const app = express();
 app.use('/graphql', graphqlHTTP({
   schema: schema,
   graphiql: true,

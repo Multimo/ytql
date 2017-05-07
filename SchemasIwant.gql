@@ -1,17 +1,17 @@
-type Rooms {
-    id: String
-    name: String
-    description: String
-    users: [User]
-    playlist: Playlist
-}
-
 type User {
     id: String
     name: String
     email: String
     savedPlaylists: [Playlist]
     activeRooms: [Room]
+}
+
+type Rooms {
+    id: String
+    name: String
+    description: String
+    users: [User]
+    playlist: Playlist
 }
 
 type Playlist {
