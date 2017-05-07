@@ -2,22 +2,18 @@ export const fakeDB = {};
 const users = {
     "users": [{
             "KeffwUIrItL": {
-                "id": "Kef04N5BuhCPwUIrItL",
+                "id": "KeffwUIrItL",
                 "email": "fake@123.com",
                 "name": "faker",
-                "savedPlaylists": [
-                    "Kef04N5BuhCPwUIrItL",
-                    "Kef04N5BuhCPwUIrItL"
-                ]
+                "savedPlaylists": []
             }
         },
         {
             "dsaafdsfd": {
-                "id": "Kef04N5BuhCPwUIrItL",
-                "email": "fake@123.com",
-                "name": "faker",
+                "id": "dsaafdsfd",
+                "email": "jake@123.com",
+                "name": "baker",
                 "savedPlaylists": [
-                    "Kef04N5BuhCPwUIrItL",
                     "Kef04N5BuhCPwUIrItL"
                 ]
             }
@@ -27,6 +23,7 @@ const users = {
                 "id": "Kef04N5BuhCPwUIrItL",
                 "email": "Basake@123.com",
                 "name": "Bsaaker",
+                "activeRoom": "KeerJ1lt7q6QoJEZxRf",
                 "savedPlaylists": [
                     "Kef04N5BuhCPwUIrItL",
                 ]
@@ -36,19 +33,23 @@ const users = {
 }
 
 const Rooms = {
-    "rooms": [{
-            "id": "-KeerJ1lt7q6QoJEZxRf",
-            "roomDesc": "songs for Dog",
-            "roomName": "Dog",
-            "roomPlaylist": "Kef04N5BuhCPwUIrItL",
-            'users': [
-                "KeffwUIrItL",
-                "dsaafdsfd",
-                "Kef04N5BfdjsaklfjdItfL"
-            ]
+    "rooms": [
+        { 
+            "KeerJ1lt7q6QoJEZxRf": {
+                "id": "KeerJ1lt7q6QoJEZxRf",
+                "roomDesc": "songs for Dog",
+                "roomName": "Dog",
+                "roomPlaylist": "Kef04N5BuhCPwUIrItL",
+                'users': [
+                    "KeffwUIrItL",
+                    "dsaafdsfd",
+                    "Kef04N5BfdjsaklfjdItfL"
+                ]
+            }
         },
         {
-            "id": "-KeerJ1lt7q6QoJEZxRf",
+            "FDSt7q6QoJEZxRf": {
+                "id": "FDSt7q6QoJEZxRf",
             "roomDesc": "Best Rooms here",
             "roomName": "Good ROom",
             "roomPlaylist": "Kef04N5BuhCPwUIrItL",
@@ -56,10 +57,11 @@ const Rooms = {
                 "KeffwUIrItL",
                 "dsaafdsfd",
                 "Kef04N5BfdjsaklfjdItfL"
-            ]
+            ]}
         },
         {
-            "id": "-KeerJ1lt7q6QoJEZxRf",
+           "KFLDKSoJEZxRf" : {
+                "id": "KFLDKSoJEZxRf",
             "roomDesc": "Bad rooms for Dog",
             "roomName": "Bad ROoms",
             "roomPlaylist": "Kef04N5BuhCPwUIrItL",
@@ -67,7 +69,7 @@ const Rooms = {
                 "KeffwUIrItL",
                 "dsaafdsfd",
                 "Kef04N5BfdjsaklfjdItfL"
-            ]
+            ]}
         }
     ]
 }

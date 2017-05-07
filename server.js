@@ -1,37 +1,32 @@
-var express = require('express');
-var graphqlHTTP = require('express-graphql');
-var graphql = require('graphql');
+import  express from 'express';
+import graphqlHTTP from 'express-graphql';
+import { 
+    GraphQLObjectType,
+    GraphQLSchema,
+    GraphQLString,
+    graphql 
+} from 'graphql';
+import { fakeDatabase } from './realFakeDB';
 
-// Maps id to User object
-var fakeDatabase = {
-  'a': {
-    id: 'a',
-    name: 'alice',
-  },
-  'b': {
-    id: 'b',
-    name: 'bob',
-  },
-};
 
 // Define the User type
-var userType = new graphql.GraphQLObjectType({
+var userType = new GraphQLObjectType({
   name: 'User',
   fields: {
-    id: { type: graphql.GraphQLString },
-    name: { type: graphql.GraphQLString },
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
   }
 });
 
 // Define the Query type
-var queryType = new graphql.GraphQLObjectType({
+var queryType = new GraphQLObjectType({
   name: 'Query',
   fields: {
     user: {
       type: userType,
       // `args` describes the arguments that the `user` query accepts
       args: {
-        id: { type: graphql.GraphQLString }
+        id: { type: GraphQLString }
       },
       resolve: function (_, {id}) {
         return fakeDatabase[id];
@@ -40,7 +35,7 @@ var queryType = new graphql.GraphQLObjectType({
   }
 });
 
-var schema = new graphql.GraphQLSchema({query: queryType});
+var schema = new GraphQLSchema({query: queryType});
 
 var app = express();
 app.use('/graphql', graphqlHTTP({
