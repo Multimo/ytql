@@ -1,0 +1,27 @@
+type Rooms {
+    id: String
+    name: String
+    description: String
+    users: [User]
+    playlist: Playlist
+}
+
+type User {
+    id: String
+    name: String
+    email: String
+    savedPlaylists: [Playlist]
+    activeRooms: [Room]
+}
+
+type Playlist {
+    id: String
+    name: String
+    songs: [Song]
+}
+
+type Song {
+    url: String
+    title: String
+    thumbnail: String
+}
