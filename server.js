@@ -1,5 +1,6 @@
-import  express from 'express';
+import express from 'express';
 import graphqlHTTP from 'express-graphql';
+import axios from 'axios'; 
 import { 
     GraphQLObjectType,
     GraphQLSchema,
@@ -7,30 +8,59 @@ import {
     GraphQLList,
     graphql 
 } from 'graphql';
-import { fakeDatabase } from './realFakeDB';
 
+const BASEURL = `http://localhost:3004/`;
+const gimmi = (args) => axios.get(`${BASEURL}${args}`).then(r => r.data)
 
-// Define the User type
-const userType = new GraphQLObjectType({
-  name: 'User',
-  fields: {
+const songType = new GraphQLObjectType({
+  name: 'Song',
+  fields: () => ({
+    title: { type: GraphQLString },
+    url: { type: GraphQLString },
+    thumbnail: { type: GraphQLString },
+  })
+});
+
+const playlistType = new GraphQLObjectType({
+  name: 'Playlist',
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
-    email: { type: GraphQLString },
-    // savedPlaylists: { type: GraphQLList }
-  }
+    songs: { type: new GraphQLList(songType) }
+  })
 });
 
 const roomType = new GraphQLObjectType({
   name: 'Room',
-  fields: {
+  fields: () => ({
     id: { type: GraphQLString },
     name: { type: GraphQLString },
     description: { type: GraphQLString },
-    playlist: { type: GraphQLString },
-    // users: { type: GraphQLList }
-  }
+    playlist: { 
+      type: playlistType,
+      resolve: (_, args) => gimmi(`playlists/${_.playlist}`)
+      },
+    users: { 
+      type: new GraphQLList(userType),
+      resolve: (_, args) => gimmi(`rooms/${_.id}/users`)
+     }
+  })
 });
+
+const userType = new GraphQLObjectType({
+  name: 'User',
+  fields: () => ({
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    email: { type: GraphQLString },
+    activeRooms: { 
+      type: roomType,
+      resolve: (_, args) => gimmi(`rooms/${_.activeRooms}`)
+    }
+  })
+});
+
+
 
 // Define the Query type
 const queryType = new GraphQLObjectType({
@@ -42,19 +72,25 @@ const queryType = new GraphQLObjectType({
       args: {
         id: { type: GraphQLString }
       },
-      resolve: (_, {id}) => fakeDatabase.users[id]
+      resolve: (_, {id}) => gimmi(`users/${id}`)
     },
    allUsers: {
-      type: userType,
-      resolve: () => fakeDatabase.users
+      type: new GraphQLList(userType),
+      resolve: (_, args) => gimmi(`users/`)
     },
     room: {
       type: roomType,
-      // `args` describes the arguments that the `user` query accepts
       args: {
         id: { type: GraphQLString }
       },
-      resolve: (_, {id}) => fakeDatabase.rooms[id]
+      resolve: (_, {id}) => gimmi(`rooms/${id}`)
+    },
+    playlist: {
+      type: playlistType,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve: (_, {id}) => gimmi(`playlists/${id}`)
     },
   })
 });
