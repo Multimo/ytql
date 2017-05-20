@@ -94,4 +94,5 @@ const QueryType = new GraphQLObjectType({
 });
 
 const schema = new GraphQLSchema({query: QueryType});;
-module.export = schema;
+
+module.exports = schema;
