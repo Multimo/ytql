@@ -4,11 +4,14 @@ import {
     GraphQLSchema,
     GraphQLString,
     GraphQLList,
-    graphql 
+    GraphQLNonNull, 
 } from 'graphql';
 
 const BASEURL = `http://localhost:3004/`;
-const gimmi = (args) => axios.get(`${BASEURL}${args}`).then(r => r.data)
+const gimmi = (args) => axios.get(`${BASEURL}${args}`).then(r => r.data);
+const post = (where, args) => axios.post(`${BASEURL}${where}`, {...args}).then(r => r.data);
+const remove = (where) => axios.delete(`${BASEURL}${where}`).then(r => r.data)
+const update = (where, args) => axios.patch(`${BASEURL}${where}`, {...args}).then(r => r.data)
 
 const songType = new GraphQLObjectType({
   name: 'Song',
@@ -52,8 +55,12 @@ const userType = new GraphQLObjectType({
     name: { type: GraphQLString },
     email: { type: GraphQLString },
     activeRooms: { 
-      type: roomType,
+      type: new GraphQLList(roomType),
       resolve: (_, args) => gimmi(`rooms/${_.activeRooms}`)
+    },
+    savedPlaylists: { 
+      type: new GraphQLList(playlistType),
+      resolve: (_, args) => gimmi(`playlists/${_.activeRooms}`)
     }
   })
 });
@@ -93,6 +100,40 @@ const QueryType = new GraphQLObjectType({
   })
 });
 
-const schema = new GraphQLSchema({query: QueryType});;
+const mutation = new GraphQLObjectType({
+    name: 'Mutation',
+    fields: () => ({
+        addUser: {
+            type: userType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                email: { type: new GraphQLNonNull(GraphQLString) },
+            },
+            resolve: (_, { name, email }) => post('users/', { name, email }) 
+        },
+        removeUser: {
+            type: userType,
+            args: {
+                id: { type: new GraphQLNonNull(GraphQLString) },
+            },
+            resolve: (_, { id }) => remove('users/', { id }) 
+        },
+        updateUser: {
+            type: userType,
+            args: {
+                name: { type: new GraphQLNonNull(GraphQLString) },
+                email: { type: new GraphQLNonNull(GraphQLString) },
+                // activeRooms: { type: new GraphQLList(userType) },
+                // savedPlaylist: { type: new GraphQLList(playlistType) }
+            },
+                resolve: (_, args) => update('users/', args) 
+        }   
+    })
+})
 
+
+const schema = new GraphQLSchema({
+    mutation,
+    query: QueryType
+});
 module.exports = schema;

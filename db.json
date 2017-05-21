@@ -1,63 +1,87 @@
 {
-    "users": [{
-            "id": "u1",
-            "name": "alice",
-            "email": "alice@123.com",
-            "playlistIds": ["p1", "p2"],
-            "activeRooms": "r2"
+  "users": [
+    {
+      "id": "u1",
+      "name": "alice",
+      "email": "alice@123.com",
+      "playlistIds": [
+        "p1",
+        "p2"
+      ],
+      "activeRooms": "r2"
+    },
+    {
+      "id": "u2",
+      "name": "bob",
+      "email": "bob@123.com",
+      "playlistIds": [
+        "p1"
+      ],
+      "activeRooms": "r1"
+    },
+    {
+      "name": "Jimbo",
+      "email": "jim@bo.com",
+      "id": "r1PXyE0x-"
+    },
+    {
+      "name": "mombo",
+      "email": "bjjb@bo.com",
+      "id": "HyEL9BAeW"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "r1",
+      "name": "aliceRoom",
+      "description": "this is a description",
+      "playlist": "p1",
+      "users": [
+        "u2"
+      ]
+    },
+    {
+      "id": "r2",
+      "name": "bobRossRoom",
+      "description": "this is a description",
+      "playlist": "p2",
+      "users": [
+        "u1"
+      ]
+    }
+  ],
+  "playlists": [
+    {
+      "id": "p1",
+      "name": "playlist A",
+      "songs": [
+        {
+          "url": "song1",
+          "title": "song1",
+          "thumbnail": "song1"
         },
         {
-            "id": "u2",
-            "name": "bob",
-            "email": "bob@123.com",
-            "playlistIds": ["p1"],
-            "activeRooms": "r1"
+          "url": "song2",
+          "title": "song2",
+          "thumbnail": "song2"
         }
-    ],
-    "rooms": [{
-            "id": "r1",
-            "name": "aliceRoom",
-            "description": "this is a description",
-            "playlist": "p1",
-            "users": ["u2"]
+      ]
+    },
+    {
+      "id": "p2",
+      "name": "playlist B",
+      "songs": [
+        {
+          "url": "song3",
+          "title": "song3",
+          "thumbnail": "song3"
         },
         {
-            "id": "r2",
-            "name": "bobRossRoom",
-            "description": "this is a description",
-            "playlist": "p2",
-            "users": ["u1"]
+          "url": "song4",
+          "title": "song4",
+          "thumbnail": "song4"
         }
-    ],
-    "playlists": [{
-            "id": "p1",
-            "name": "playlist A",
-            "songs": [{
-                    "url": "song1",
-                    "title": "song1",
-                    "thumbnail": "song1"
-                },
-                {
-                    "url": "song2",
-                    "title": "song2",
-                    "thumbnail": "song2"
-                }
-            ]
-        },
-        {
-            "id": "p2",
-            "name": "playlist B",
-            "songs": [{
-                    "url": "song3",
-                    "title": "song3",
-                    "thumbnail": "song3"
-                },
-                {
-                    "url": "song4",
-                    "title": "song4",
-                    "thumbnail": "song4"
-                }
-            ]
-        }
-    ]
+      ]
+    }
+  ]
 }
